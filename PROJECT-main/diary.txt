@@ -1,0 +1,261 @@
+9th-October-2022:
+
+    Created a project layout that I experimented with over the summer.
+        - main risk package will contain a calculate class where mathematical VaR will be computed
+        - var class will get data and store in a VaR class with appropriate paramters.
+
+10th-October-2022:
+
+    Set up TDD test for getting data
+    Created a get_data function that will access Yahoo API and calculates appropriate paramters.
+
+11th-October-2022:
+
+    I struggled with setting up an Object Oriented Design at the beginning of the week which took the majoirty
+    of my time.
+
+        But, now I have a VaR class that uses __init__ to read yahoo API and perform relevant paramter calculations.
+        Therefore there is no need for get_data().
+
+12th-October-2022:
+
+    historical_var() has been created which computes historical VaR calculation for a given start and end date, at a
+    given confidence level over a specified VaR time period.
+
+        I should put in more though into the way of storing the dates, conf level, and VaR time period.
+
+13th-October-2022:
+
+    historical_cvar() has been added, This computes the Expected Shortfall (conditional value at risk).
+
+        The CVaR returned shows that the expected loss is greater, which makes sense as the expected shortfall is
+        at a lower percentile than the VaR.
+
+            I had some troubles feeding the right data in historical_cvar() because I needed to call the
+            historical_var() functuon with self, and keep the same return values.
+
+    Testing :
+
+        New UnitTest was added to replace get_data as the function was replaced.
+
+        I need to add more tests to check VaR results / function.
+
+    I need to add documentation to all functions / classes.
+
+14th-October-2022:
+
+    Feature :
+        portfolio_analysis() in VaR Class can compute mean*weighted return and standard deviation over a specified
+        time for a portfolio.
+
+    Testing :
+
+        Added a UnitTest to make sure the Conditional VaR is lower than VaR for the specific data that was
+        pre-determined.
+
+15th-October-2022:
+
+    Feature :
+        Paramateric ValueAtRisk can now be calculated in addition to Parametric Condtiontional Value At Risk,
+
+            These functions have the attribute of period of time to calculate VaR for however with historical I store
+            t-Time outside Class scope so this could be something to standardise as part of a refactor
+
+    Testing :
+        I have added a Unit Test to check that the CVaR is smaller than VaR for the pre-determined time frame.
+
+18th-October-2022:
+
+    Feature :
+        Now it is possible to calculate volatility using Exponentially Weighted Moving Average (EWMA) formula.
+
+            This works by calculating the volatility for each stock in returns.columns including 'portfolio' returns
+            however, I dont know how to combine the volatilties for a single VaR of portfolio but for now it can find
+            it for each stock series in returns DataFrame.
+
+            The volatility from EWMA calculation is quite close to Standard Deviation so this gives me a good idea that
+            my calculation is right
+
+                I can later further test this by using pandas.ewm possibly.
+
+19th-October-2022:
+
+    Feature :
+        I have implemented a method parametric_ewma_var() which uses EWMA volatility calculation from yesterday.
+
+            I have not yet found out if the portfolio calculation is valid
+                I calculate VaR for each stock including the portfolio column and these results are similar to my
+                Gaussian calculation though.
+
+23rd-October-2022:
+
+    Feature :
+        New function where I have implemented the formula:
+            Daily Returns t = MeanReturn + LZt
+
+            where Zt are samples from normal distribution, L is a decomp. of covariance matrix using Cholesky Decomp.
+
+        This allows me to simulate a stock portfolio value over time as a Monte Carlo simulation.
+
+        Next step:
+            Compute VaR of the Monte Carlo simulation by looking at the bottom percentile, a bit more reading for me
+            is required.
+
+    Mistake :
+        I have been working on the project thus far without branches as I just completely forgot to use them for new
+        features such as implementing historical, parametric VaR estimates. However I have now created a Monte Carlo
+        branch which I will use for that deliverable and the rest of my project.
+
+
+2nd-November-2022:
+
+    Feature :
+
+        New function where I create a similar function to that of Historical VaR to compute the alpha percentile
+        of the distribution from the series of portfolio simulations. This computes the VaR for the Monte Carlo Sim
+        method. The series of portfolio simulations is computed in 23rd oct update.
+
+9th-November-2022:
+
+    Created layout for interim report.
+
+12-November-2022:
+
+    Started writing about background theory, more specifically the definition of VaR.
+
+13-November-2022:
+
+    Finished defintion of VaR and also CVaR.
+
+15-November-2022:
+
+    Now interim report is up to 1500 words. Started describing the theory of historical simulation.
+
+
+25-November-2022:
+
+    Interim report describes MonteCarlo sim theory as well as model-building approach.
+    Next step is to describe the differences in variance calculations and covariance matrix.
+
+27-November-2022:
+
+    Background theory is basically completed.
+
+28-November-2022:
+
+    Feature: Added a function  monte_carlo_cvar() to compute expected shortfall of Monte Carlo simulation, I previosly
+    forgot to implement this but now the results look good.
+
+29-November-2022:
+
+    Refactor: Completed python documentation.
+
+15-December-2022
+
+    Python API broke down
+
+
+16-December-2022
+
+    Investigating Issues, seems to be encoding of data in AES by Yahoo! Finance
+
+22-December-2022
+
+    Working on fix, seems Unlikely
+
+1-January-2022
+
+    Imported a fix from another library and made some workaround for pandas-datareader for it to work
+
+15-January-2022
+
+    Downloaded data into CSV files so that there is redundancy
+
+20-Janyary-2022
+
+    Started working on backtesting :
+
+        Researching : Kupiec and Standard coverage tests
+
+25-January-2022
+
+    Feature :
+
+        Kupiec POF test implemented, works with p-values by computing chi squared with survival function.
+
+
+3-February-2022
+
+    Feature :
+
+        Standard coverage test implemented, works similar to Kupiec test and gives very similar p values.
+
+
+16-February-2022
+
+    Feature :
+
+        Started using PySimpleGUI to create a simple GUI for the var.py file
+
+            So far opens a window to take in user input
+
+22-February-2022
+
+    Feature : GUI is fully functional for all VaR estimates and can take in any user input to create a portfolio of
+              stocks
+
+
+15-December-2022
+
+    Python API broke down
+
+
+16-December-2022
+
+    Investigating Issues, seems to be encoding of data in AES by Yahoo! Finance
+
+22-December-2022
+
+    Working on fix, seems Unlikely
+
+1-January-2022
+
+    Imported a fix from another library and made some workaround for pandas-datareader for it to work
+
+15-January-2022
+
+    Downloaded data into CSV files so that there is redundancy
+
+20-Janyary-2022
+
+    Started working on backtesting :
+
+        Researching : Kupiec and Standard coverage tests
+
+25-January-2022
+
+    Feature :
+
+        Kupiec POF test implemented, works with p-values by computing chi squared with survival function.
+
+
+3-February-2022
+
+    Feature :
+
+        Standard coverage test implemented, works similar to Kupiec test and gives very similar p values.
+
+
+16-February-2022
+
+    Feature :
+
+        Started using PySimpleGUI to create a simple GUI for the var.py file
+
+            So far opens a window to take in user input
+
+22-February-2022
+
+    Feature : GUI is fully functional for all VaR estimates and can take in any user input to create a portfolio of
+              stocks
+
